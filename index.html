@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>捕鱼游戏 · 知识库入口</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f5f5f3;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans SC', sans-serif;
+            line-height: 1.7;
+            color: #1f2a36;
+            padding: 2rem 1.25rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .page-wrapper {
+            max-width: 760px;
+            width: 100%;
+        }
+
+        /* hero 区 - 窄而克制的引子 */
+        .hero {
+            margin-bottom: 3rem;
+            border-bottom: 1px solid #d8dcdc;
+            padding-bottom: 1.75rem;
+        }
+
+        .hero h1 {
+            font-size: 2.25rem;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            color: #1c2b3a;
+            margin-bottom: 0.9rem;
+        }
+
+        .hero .subhead {
+            font-size: 0.95rem;
+            color: #586570;
+            max-width: 600px;
+            font-weight: 380;
+        }
+
+        /* 目录感布局：使用卡片网格 + 说明条目 */
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 450;
+            margin: 2.5rem 0 1.25rem 0;
+            color: #1f2a36;
+            letter-spacing: 0.01em;
+            border-left: 3px solid #9aaeb9;
+            padding-left: 0.9rem;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .card {
+            background: #ffffffec;
+            border: 1px solid #e3e7e9;
+            border-radius: 12px;
+            padding: 1.1rem 1rem 1rem 1rem;
+            transition: box-shadow 0.15s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 6px 12px rgba(0, 20, 30, 0.04);
+        }
+
+        .card h3 {
+            font-size: 1.05rem;
+            font-weight: 480;
+            margin-bottom: 0.45rem;
+            color: #1f2a36;
+        }
+
+        .card p {
+            font-size: 0.88rem;
+            color: #445560;
+        }
+
+        /* 说明区 (叙述性段落) */
+        .narrative-block {
+            background: #fafaf9;
+            border-radius: 16px;
+            padding: 1.5rem 1.6rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid #bccfd9;
+        }
+
+        .narrative-block p {
+            margin-bottom: 0.9rem;
+        }
+
+        .narrative-block p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* 提示区 (轻提醒) */
+        .tip-area {
+            background-color: #f0f3f2;
+            border-radius: 32px;
+            padding: 1.5rem 1.8rem;
+            margin-bottom: 2.8rem;
+            border: 1px solid #d4ddde;
+        }
+
+        .tip-area .tip-label {
+            font-weight: 500;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #6a7f88;
+            margin-bottom: 0.5rem;
+        }
+
+        .tip-area p {
+            font-size: 0.95rem;
+            color: #2b3b47;
+        }
+
+        /* FAQ 摘要 (折叠风格但只做摘要) */
+        .faq-item {
+            border-bottom: 1px solid #e2e6e7;
+            padding: 0.9rem 0;
+        }
+
+        .faq-item:first-of-type {
+            border-top: 1px solid #e2e6e7;
+        }
+
+        .faq-q {
+            font-weight: 470;
+            color: #1f2a36;
+            margin-bottom: 0.15rem;
+        }
+
+        .faq-a {
+            font-size: 0.9rem;
+            color: #445560;
+            margin-top: 0.15rem;
+        }
+
+        /* 相关信息区 */
+        .info-links {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #ced6d8;
+            display: flex;
+            flex-wrap: wrap;
+            column-gap: 1.8rem;
+            row-gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .info-links a {
+            color: #2f5c6e;
+            text-decoration: none;
+            border-bottom: 1px dotted #b0c4cb;
+            transition: border-color 0.15s;
+        }
+
+        .info-links a:hover {
+            border-bottom: 1px solid #1f2a36;
+            color: #1c2b3a;
+        }
+
+        .inline-link {
+            color: #2f5c6e;
+            text-decoration: none;
+            border-bottom: 1px dotted #b0c4cb;
+            transition: border-color 0.15s;
+        }
+
+        .inline-link:hover {
+            border-bottom: 1px solid #1c2b3a;
+            color: #1c2b3a;
+        }
+
+        .footer-note {
+            margin-top: 3rem;
+            font-size: 0.8rem;
+            color: #758a93;
+            border-top: 1px solid #e3e9eb;
+            padding-top: 1.8rem;
+            text-align: left;
+        }
+
+        /* 响应式 */
+        @media (max-width: 540px) {
+            body {
+                padding: 1.25rem 1rem;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.9rem;
+            }
+
+            .narrative-block {
+                padding: 1.2rem 1.2rem;
+            }
+
+            .tip-area {
+                padding: 1.2rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- hero -->
+        <div class="hero">
+            <h1>捕鱼游戏 · 知识库入口</h1>
+            <div class="subhead">
+                日常查询、对照与延伸阅读 —— 围绕机制、技巧与常见疑问，整理一份可翻阅的基本参考。
+            </div>
+        </div>
+
+        <!-- 说明区：一段叙述，引出目录感 -->
+        <div class="narrative-block">
+            <p>
+                捕鱼游戏发展至今，已不再是单纯的瞄准与射击。不同平台的道具倍率、子弹消耗、鱼群刷新逻辑，常常需要对照着看才能找到适合自己的节奏。这里搜集了一些基础条目，按 「规则」「策略」「版本差异」「常见误区」 四个方向做了简单归位。不求详尽，只为日常翻阅时少一些盲点。
+            </p>
+            <p>
+                如果你刚接触这类游戏，或者想对比不同场景下的设定，可以直接从下面几组卡片开始。每个卡片都指向一个知识片段——它们像索引标签，背后是更具体的操作细节和实例。
+            </p>
+        </div>
+
+        <!-- 目录感卡片区域 -->
+        <h2 class="section-title">索引 · 对照条目</h2>
+        <div class="card-grid">
+            <div class="card">
+                <h3>炮台与倍率</h3>
+                <p>不同倍率下的子弹消耗、捕捉范围、以及收益期望的简单对照。</p>
+            </div>
+            <div class="card">
+                <h3>鱼种价值表</h3>
+                <p>小型鱼与BOSS鱼的基础分值、出现频率与常用打法。</p>
+            </div>
+            <div class="card">
+                <h3>技能道具</h3>
+                <p>冰冻、锁定、狂暴等技能的实际持续时间和使用成本。</p>
+            </div>
+            <div class="card">
+                <h3>特殊场景</h3>
+                <p>鱼潮、暴风、夜间模式等特殊状态下的参数变化。</p>
+            </div>
+            <div class="card">
+                <h3>版本特征</h3>
+                <p>主流平台之间的UI差异、炮弹速度与回收率对比。</p>
+            </div>
+            <div class="card">
+                <h3>常见误区</h3>
+                <p>关于“必中”“规律出分”等说法的客观还原。</p>
+            </div>
+        </div>
+
+        <!-- 提示区 -->
+        <div class="tip-area">
+            <div class="tip-label">📌 提示</div>
+            <p>
+                捕鱼游戏中的随机数生成与鱼群路径，通常由服务器端实时计算。任何声称“固定点位”“百分百捕获”的第三方插件，既不符合规则，也可能导致账号异常。建议以官方设定为准，保持健康的游戏习惯。
+            </p>
+        </div>
+
+        <!-- 相关信息区 + 延伸阅读 -->
+        <h2 class="section-title">相关信息 · 延伸</h2>
+        <div class="faq-item">
+            <div class="faq-q">Q: 不同炮台之间伤害继承吗？</div>
+            <div class="faq-a">绝大多数版本中，切换炮台会重置当前子弹序列，但累积能量或暴击条（如果有）通常保留。详见具体平台的规则说明。</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">Q: 鱼群刷新是否有明显周期？</div>
+            <div class="faq-a">鱼群出现基于时间波次，但每个波次内的鱼种和位置包含随机偏移。部分模式会在整点或特定积分阈值触发特殊鱼潮。</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">Q: 多人同屏时，子弹会互相影响吗？</div>
+            <div class="faq-a">子弹独立计算碰撞，不产生拦截或抢夺。但某些版本中，同一鱼被多次命中会按伤害比例分配奖励。</div>
+        </div>
+
+        <!-- 带有主要链接的句子 -->
+        <p style="margin-top: 1.8rem; font-size: 0.95rem; color: #3a4a55;">
+            如果你希望查看更细致的机制说明与常见问题整理，可以翻阅 <a href="https://main-fishingslots.com" class="inline-link">捕鱼游戏</a> 的知识板块，那里汇总了更多对照表和版本注释。
+        </p>
+
+        <!-- 额外的信息区 与 另一个链接自然出现 -->
+        <div class="info-links">
+            <span>相关参考：</span>
+            <a href="https://main-fishingslots.com">捕鱼游戏</a>
+            <span style="color:#8ba1ab;">·</span>
+            <a href="#" style="pointer-events:none; opacity:0.5; text-decoration:none;">术语对照（即将更新）</a>
+            <span style="color:#8ba1ab;">·</span>
+            <a href="#" style="pointer-events:none; opacity:0.5; text-decoration:none;">版本存档</a>
+        </div>
+
+        <!-- 结尾 -->
+        <div class="footer-note">
+            知识库入口 · 内容基于公开信息与经验整理，仅供参考，不构成任何具体建议。
+        </div>
+    </div>
+</body>
+</html>
